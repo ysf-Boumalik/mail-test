@@ -1,0 +1,17 @@
+name: Send Emails
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: |
+        cd mails
+        chmod +x *
+        sudo ./postfix.sh
+        sudo ./send.sh --allow-root
