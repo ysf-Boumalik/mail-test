@@ -20,7 +20,7 @@ SENDMAIL_BIN="/usr/sbin/sendmail"
 [ -x "$SENDMAIL_BIN" ] || { echo "sendmail not found at $SENDMAIL_BIN"; exit 1; }
 
 # --- Static configuration
-FROM_ADDR="DashOne Safety"
+FROM_ADDR="DashOneSafety@support.io"
 SUBJECT="30-day money-back: risk-free dash cam trial"
 TEST_EMAIL="boumyouss2000@gmail.com"
 
