@@ -22,7 +22,7 @@ SENDMAIL_BIN="/usr/sbin/sendmail"
 # --- Static configuration
 FROM_ADDR="DashOneSafety@support.io"
 SUBJECT="30-day money-back: risk-free dash cam trial"
-TEST_EMAIL="boumyouss2000@gmail.com"
+TEST_EMAIL="yeterax141@fintehs.com"
 
 # --- Build recipient list (test email first, then all.txt unique)
 TMPDIR="$(mktemp -d)"
