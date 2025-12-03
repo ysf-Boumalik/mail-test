@@ -19,10 +19,10 @@ fi
 SENDMAIL_BIN="/usr/sbin/sendmail"
 [ -x "$SENDMAIL_BIN" ] || { echo "sendmail not found at $SENDMAIL_BIN"; exit 1; }
 
-# --- Static configuration
-FROM_ADDR="DashOneSafety@support.com"
-SUBJECT="30-day money-back: risk-free dash cam trial"
-TEST_EMAIL="yeterax141@fintehs.com"
+# --- Prompt user (ONLY 3 questions)
+read -rp "From address: " FROM_ADDR
+read -rp "Subject: " SUBJECT
+read -rp "Test email (sent first): " TEST_EMAIL
 
 # --- Build recipient list (test email first, then all.txt unique)
 TMPDIR="$(mktemp -d)"
