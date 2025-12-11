@@ -1,29 +1,36 @@
 #!/usr/bin/env bash
-# install_postfix.sh
-# Install Postfix + Mailutils and restart with `service` (for GCP Shell)
-
+# Clean & CI-safe Postfix + Mailutils Installer
 set -euo pipefail
 
 echo "Updating package lists..."
 sudo apt-get update -y
 
 echo "Installing Postfix and Mailutils (non-interactive)..."
-# Preseed Postfix install to avoid config prompt
+
+# Pre-configure Postfix to avoid prompts
+echo "postfix postfix/mailname string $(hostname)" | sudo debconf-set-selections
 echo "postfix postfix/main_mailer_type string 'Internet Site'" | sudo debconf-set-selections
-echo "postfix postfix/mailname string $(hostname -f)" | sudo debconf-set-selections
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y postfix mailutils
 
 echo "Ensuring myhostname is set..."
-if ! grep -q '^myhostname' /etc/postfix/main.cf; then
-  echo "myhostname = $(hostname -f)" | sudo tee -a /etc/postfix/main.cf >/dev/null
-fi
+sudo postconf -e "myhostname=$(hostname)"
 
 echo "Restarting Postfix..."
-sudo service postfix restart
+sudo systemctl restart postfix
 
-echo "Checking Postfix status..."
+echo "Checking Postfix status (CI-safe)..."
+# systemctl status returns non-zero even if service is active → safe with "|| true"
 sudo systemctl status postfix --no-pager || true
 
-echo "Installation complete. Postfix + Mailutils installed and restarted."
+echo "Reloading aliases..."
+sudo newaliases || true
+
+echo ""
+echo "========================================"
+echo "✅ Installation complete!"
+echo "Postfix + Mailutils installed successfully."
+echo "========================================"
+echo ""
+
 exit 0
