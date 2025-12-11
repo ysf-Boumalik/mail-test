@@ -23,6 +23,7 @@ echo "Restarting Postfix..."
 sudo service postfix restart
 
 echo "Checking Postfix status..."
-sudo service postfix status
+sudo systemctl status postfix --no-pager || true
 
 echo "Installation complete. Postfix + Mailutils installed and restarted."
+exit 0
